@@ -1,0 +1,63 @@
+{% extends "base_board.html" %}
+{% block title %} <h2> 글 목 록 ( 전체글 : {{count}} )</h2> {% endblock %}
+{% block contents %}
+{% load mathfilters %}
+{% load static %}
+<input type="hidden" name="noticenum" value="{{noticenum}}">
+<table border="1">
+   <tr>
+      <th style="width:8%"> 글번호 </th>
+      <th style="width:40%"> 제목 </th>
+      <th style="width:15%"> 작성자 </th>
+      <th style="width:15%"> 작성일 </th>
+      
+   </tr>
+   {% if count == 0 %}
+   <tr>
+      <td colspan="6" style="text-align:center">
+         게시판에 글이 없습니다. 글쓰기 눌러주세요
+      </td>
+   </tr>
+   {% else %}
+      {% for dto in dtos %}
+         <tr>
+            <td style="text-align:center">
+               {{number|sub:forloop.counter0}}  <!-- 리스트가 출력될 때 글번호가 출력됨 -->
+            </td>
+            <td>
+               {% if dto.readcount == -1 %}
+                  삭제된 글입니다
+               {% else %} <!--  글을 쓰면 나오게 하는 곳  -->
+                  <!-- 답글  -->	
+                  <a href="noticedetail?noticenum={{dto.noticenum}}&pagenoticenum={{pagenoticenum}}&noticenumber={{noticenumber|sub:forloop.counter0}}">
+                  {{dto.noticetitle}}
+                  </a>
+               {% endif %}
+            </td>
+            <td style="text-align:center">
+               {{dto.admin}}
+            </td>
+            <td style="text-align:center">
+               {{dto.noticedate|date:"Y-m-d H:i"}} <!-- db에 시간까지 다 들어있어서 찍을 수 있음 -->
+            </td>
+         </tr>
+      {% endfor %} 
+   {% endif %}
+</table>
+<br>
+
+{% if startpage > pageblock %}
+      <a href="noticelist?pagenoticenum={{startpage|sub:pageblock}}">[◀]</a>
+{% endif %}
+{% for page in pages %}
+   {% if pagenoticenum == page %} <!-- 현재 보는 페이지와 같으면 -->
+      <b>[{{page}}]</b>
+   {% else %}
+      <a href="noticelist?pagenoticenum={{pagenum}}">[{{page}}]</a>
+   {% endif %}
+{% endfor %}
+{% if endpage < pagecount %}
+   <a href="noticelist?pagenoticenum={{startpage|add:pageblock}}">[▶]</a>
+{% endif %}
+   
+{% endblock %}
