@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{%block content %}
+{% load mathfilters %}
+{% load humanize %}
+{% load static %}
+
+<script src="https://kit.fontawesome.com/d0bb6518aa.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function modBuyCount(value){
+		let buyCountElement = document.getElementById("buyCount");
+		if (value == 0){
+			buyCountElement.removeAttribute("readonly")
+		}
+		else{
+			buyCountElement.setAttribute("readonly", true)
+			buyCountElement.value = value;
+		}
+	}
+	function insertcart(userId, prodNum){
+		location.href = "{% url 'cart:cartins' %}?userId="+userId+"&prodNum="+prodNum+"&buyCount="+document.getElementById("buyCount").value;
+	}
+</script>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'images/beach.png' %}">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="breadcrumb__text">
+					<h2>어쩔팁이 상품</h2>
+					<div class="breadcrumb__option">
+						<a href="index">Home</a> <a href="index">Vegetables</a> <span>저쩔팁이</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Details Section Begin -->
+<section class="product-details spad" style="box-sizing: border-box;">
+	<div class="container" style="box-sizing: border-box;">
+		<div class="row prod_flex" style="box-sizing: border-box;">
+			<div class="col-lg-6 col-md-6" style="box-sizing: border-box;">
+				<div class="product__details__pic">
+					<div class="product__details__pic__item">
+						<img style="box-sizing: border-box;" class="product__details__pic__item--large" src="{{product.prodThumbnail.url}}" alt="" />
+					</div>
+					<div class="product__details__pic__slider owl-carousel"
+						style="box-sizing: border-box;">
+						<img style="box-sizing: border-box;"  src="{{product.prodImage1.url}}" alt="" />
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6" style="box-sizing: border-box;">
+				<div class="product__details__text">
+					<h3></h3>
+					<div class="product__details__rating">
+						<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+						<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+						<i class="fa fa-star-half-o"></i> <span>(18 reviews)</span>
+					</div>
+					<div class="product__details__price">{{product.prodPrice|intcomma}}원</div>
+					<p>튜브트리 남성용 래쉬가드 상하의 세트 AEBL7207PL</p>
+					<div class="product__details__quantity">
+						<div class="quantity" style="text-align:center;">
+							남은 재고: {{product.prodStock}} 개<br>
+							<input type="number" id="buyCount" value="1" style="width:80px;" readonly>
+							<br>
+							<select onchange="modBuyCount(this.value)">
+								<option value="1" selected>1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="0">직접 입력</option>
+							</select>
+						</div>
+					</div>
+					<a href="#" class="primary-btn" onclick="insertcart('{{request.session.memid}}', {{product.prodNum}})">장바구니 담기</a>
+					<a href="#" class="primary-btn2">바로구매</a>
+					<a href="{% url 'wishlist:wishins' %}?userId={{request.session.memid}}&prodNum={{product.prodNum}}" class="heart-icon"><span class="icon_heart_alt"></span></a>
+					<ul>
+						<li><b>상태</b> <span>재고 있음</span></li>
+						<li><b>무료배송</b> <span>상품 19,800원 이상 구매시 <samp>내일 도착 보장</samp> </span></li>
+						<li><b>무게</b> <span>0.5 kg</span></li>
+						<li><b>Share on</b>
+							<div class="share">
+								<a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+								<a href="https://twitter.com/?lang=ko"><i class="fa fa-twitter"></i></a>
+								<a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+								<a href="https://www.pinterest.co.kr/"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-12" style="box-sizing: border-box;">
+				<div class="product__details__tab">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">상세 정보</a></li>
+						<!-- <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#tabs-2"
+                    role="tab"
+                    aria-selected="false"
+                    >Information</a
+                  >
+                </li> -->
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab" aria-selected="false">상품평 <span>(1)</span>
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tabs-1" role="tabpanel">
+							<div class="product__details__tab__desc">
+								<h6></h6>
+								<img src="{{product.prodImage1.url}}" />
+							</div>
+						</div>
+
+						<div class="tab-pane" id="tabs-3" role="tabpanel">
+							<div class="product__details__tab__desc">
+								<h6>상품평</h6>
+								<p>여기에 리뷰 게시판 만드시요</p>
+
+								<!-- 리뷰에 들어가는 바디부분 -->
+
+								<div class="sform">
+									<table class="wtable">
+
+										<h2>리뷰를 작성해 주세요</h2>
+										<input class="inputbutton" type="button" value="리뷰작성하기"
+											onclick="location='reviewWrite'">
+
+										<caption>{{count}}개의 후기가 있어요</caption>
+										<colgroup>
+											<col style="width: 5px;">
+											<col style="width: 100px;">
+											<col style="width: 140px;">
+										</colgroup>
+										{% if count == 0 %}
+										<tr>
+											<td colspan="4" style="text-align: center">작성된 리뷰가 없습니다.
+												영광의 첫 리뷰를 남겨주세요.
+											</td>
+										</tr>
+										{% else %}
+										{% for dto in dtos %}
+										<div>
+											<thead>
+												<tr class="bg_gray">
+													<!-- 배경색상 그레이 -->
+													<th scope="col">리뷰번호</th>
+													<th scope="col">작성자</th>
+													<th width="200px" scope="col">작성일</th>
+												</tr>
+											</thead>
+											<tr style="text-align: center">
+												<td style="width: 100px">{{number|sub:forloop.counter0}}</td>
+												<!-- 리스트가 출력될 때 리뷰번호가 출력됨 -->
+												<td>{{dto.userid}}</td>
+												<td>{{dto.reviewdate|date:"Y-m-d"}}</td>
+											</tr>
+											<tr style="text-align: left">
+												<td colspan="3">
+													<!-- 내용부분 -->
+													<a href="{% url 'product:reviewDetail' %}?reviewNum={{review.reviewNum}}&pagenum={{pagenum}}&number={{number|sub:forloop.counter0}}">
+														{{dto.reviewcontent}}
+													</a>
+												</td>
+											</tr>
+											{% if dto.photo %}
+											<tr>
+												<th colspan="3">
+													<!-- 첨부파일 부분 -->
+													<a href="{% url 'product:reviewDetail' %}?reviewNum={{review.reviewNum}}&pagenum={{pagenum}}&number={{number|sub:forloop.counter0}}">
+														<img src="{{review.reviewPhoto.url}}" border="0" width="100px" height="100px">
+													</a>
+												</th>
+											</tr>
+											{% endif %}
+										</div>
+										{% endfor %}
+									</table>
+								</div>
+								{% endif %}
+
+
+								<!-- 리뷰에 들어가는 바디부분 끝! -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Product Details Section End -->
+
+<!-- Related Product Section Begin -->
+<section class="related-product">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-title related__product__title">
+					<h2>Related Product</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="product__item">
+					<div class="product__item__pic set-bg"
+						data-setbg="../static/images/product-1.jpg">
+						<ul class="product__item__pic__hover">
+							<li><a href="#"><i class="fa fa-heart"></i></a></li>
+							<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+							<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+						</ul>
+					</div>
+					<div class="product__item__text">
+						<h6>
+							<a href="#">Crab Pool Security</a>
+						</h6>
+						<h5>$30.00</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="product__item">
+					<div class="product__item__pic set-bg"
+						data-setbg="../static/images/product-2.jpg">
+						<ul class="product__item__pic__hover">
+							<li><a href="#"><i class="fa fa-heart"></i></a></li>
+							<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+							<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+						</ul>
+					</div>
+					<div class="product__item__text">
+						<h6>
+							<a href="#">Crab Pool Security</a>
+						</h6>
+						<h5>$30.00</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="product__item">
+					<div class="product__item__pic set-bg"
+						data-setbg="../static/images/product-3.jpg">
+						<ul class="product__item__pic__hover">
+							<li><a href="#"><i class="fa fa-heart"></i></a></li>
+							<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+							<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+						</ul>
+					</div>
+					<div class="product__item__text">
+						<h6>
+							<a href="#">Crab Pool Security</a>
+						</h6>
+						<h5>$30.00</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="product__item">
+					<div class="product__item__pic set-bg"
+						data-setbg="../static/images/product-7.jpg">
+						<ul class="product__item__pic__hover">
+							<li><a href="#"><i class="fa fa-heart"></i></a></li>
+							<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+							<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+						</ul>
+					</div>
+					<div class="product__item__text">
+						<h6>
+							<a href="#">Crab Pool Security</a>
+						</h6>
+						<h5>$30.00</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Related Product Section End -->
+{%endblock%}

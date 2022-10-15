@@ -1,0 +1,17 @@
+BRAND_CHOICE = [
+    ("Arena", "Arena"),
+    ("Vendis", "Vendis"),
+    ("Tube Tree", "Tube Tree"),
+    ("Tornado Sports", "Tornado Sports"),
+    ("Seafolly", "Seafolly"),
+    ("Speedo", "Speedo"),
+    ("Arise", "Arise"),
+    ("Hoog", "Hoog"),
+    ("Rash pl.", "Rash pl."),
+    ("Runiduck", "Runiduck"),
+    ("Cocolic", "Cocolic"),
+    ("Phoenix", "Phoenix"),
+    ("Buffalo", "Buffalo"),
+    ("@atina", "@atina"),
+    ("U.seven", "U.seven"),
+]
